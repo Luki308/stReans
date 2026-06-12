@@ -1,0 +1,1 @@
+useDynLib(stReans, .registration = TRUE)
