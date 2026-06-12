@@ -1,4 +1,5 @@
 #include <math.h>
+#include <stddef.h>
 #include "distances.h"
 
 double euclidean_distance(double* a, double* b, size_t n){
