@@ -1,0 +1,1 @@
+test_that("package loads", {expected_true(TRUE)})
