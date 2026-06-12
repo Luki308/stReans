@@ -1,1 +1,1 @@
-test_that("package loads", {expected_true(TRUE)})
+test_that("package loads", {expect_true(TRUE)})
