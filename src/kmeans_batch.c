@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include <stddef.h>
 
-SEXP k_means_batch(SEXP X_r, SEXP k_r, SEXP max_iter_r, SEXP tol_r){
+SEXP C_kmeans_batch(SEXP X_r, SEXP k_r, SEXP max_iter_r, SEXP tol_r){
     if(!Rf_isReal(X_r) || !Rf_isMatrix(X_r))
         Rf_error("X should be a numeric matrix!");
     if(!Rf_isInteger(k_r))
@@ -70,22 +70,38 @@ SEXP k_means_batch(SEXP X_r, SEXP k_r, SEXP max_iter_r, SEXP tol_r){
             if (counts[c]>0)
                 for(size_t j=0; j<ncols; j++)
                     new_centers[c*ncols+j] /= counts[c];
-
+        
         //check shift covergence
         shift = 0.0;
         for(size_t c=0; c<k; c++){
             double d_shift = euclidean_distance(&centers[c*ncols], &new_centers[c*ncols], ncols);
             if(d_shift > shift) shift = d_shift;
         }
+        
+        //change centers to new ones
         double* temp = centers;
         centers = new_centers;
         new_centers = temp;
+
+        //(TODO - delete)
+        // Debug 
+        Rprintf("iter %lld: shift = %.4f\n", iter+1, shift);
+            for (int c = 0; c < k; c++) {
+        Rprintf("  center %d: (", c + 1);
+        for (int j = 0; j < ncols; j++) {
+            Rprintf("%.4f", centers[c * ncols + j]);
+            if (j < ncols - 1) Rprintf(", ");
+        }
+        Rprintf(")\n");
+        }
     }
     
     //results list
     SEXP result = PROTECT(Rf_allocVector(VECSXP, 2));
     SEXP r_centers = PROTECT(Rf_allocMatrix(REALSXP, k, ncols));
     SEXP r_assign = PROTECT(Rf_allocVector(INTSXP, nrows));
+    SEXP names = PROTECT(Rf_allocVector(STRSXP, 2));
+
     // SEXP r_iter = PROTECT(Rf_ScalarInteger(iter));
 
     row_to_col_major(centers, REAL(r_centers), k, ncols);
@@ -93,8 +109,11 @@ SEXP k_means_batch(SEXP X_r, SEXP k_r, SEXP max_iter_r, SEXP tol_r){
         INTEGER(r_assign)[i] = assign[i] + 1; //R indexes from 1
     SET_VECTOR_ELT(result, 0, r_centers);
     SET_VECTOR_ELT(result, 1, r_assign);
+    SET_STRING_ELT(names, 0, Rf_mkChar("centers"));
+    SET_STRING_ELT(names, 1, Rf_mkChar("assignments"));
+    Rf_setAttrib(result, R_NamesSymbol, names);
     // SET_VECTOR_ELT(result, 2, iter);
-    UNPROTECT(3);
+    UNPROTECT(4);
 
     return result;
 }
