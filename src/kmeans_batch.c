@@ -31,5 +31,65 @@ SEXP k_means_batch(SEXP X_r, SEXP k_r, SEXP max_iter_r, SEXP tol_r){
     
     //loop
 
-    return NULL;
+    double shift = DBL_MAX;
+    double* new_centers = (double*) malloc(sizeof(double)*k*ncols);
+    size_t* assign = (size_t*)malloc(sizeof(size_t)*nrows);
+    size_t* counts = (size_t*)malloc(sizeof(size_t)*k);
+    for(size_t iter=0; iter < max_iter && shift > tol; iter++){
+        //assign to nearest cluster
+        for(size_t i=0; i<nrows; i++){
+            double min_dist = DBL_MAX;
+            size_t best = 0;
+            for(size_t c=0; i<k; i++){
+                double dist_to_c = euclidean_distance(&X[i], &centers[i], ncols);
+                if(dist_to_c < min_dist) {
+                    min_dist = dist_to_c;
+                    best = c;
+                }
+            }
+            assign[i] = best;
+        }
+    
+        //update centers
+        for (size_t c = 0; c < k; c++) {
+            for (size_t j = 0; j < ncols; j++)
+                new_centers[c + nrows*j] = 0.0;
+        }
+            //create sums of coords
+        for(size_t i=0; i<nrows; i++){
+            size_t c = assign[i];
+            counts[c]++;
+            for(size_t j=0; j<ncols; j++)
+                new_centers[c+nrows*j] += X[i+nrows*j];
+        }
+            //div by count
+        for(size_t c=0; c<k; c++)
+            if (counts[c]>0)
+                for(size_t j=0; j<ncols; j++)
+                    new_centers[c+nrows*j] /= counts[c];
+
+        //check shift covergence
+        for(size_t c=0; c<k; c++){
+            double d_shift = euclidean_distance(&centers[c], &new_centers[c], ncols);
+        }
+        centers = new_centers;
+    }
+    
+    //results list
+    SEXP result = PROTECT(Rf_allocVector(VECSXP, 2));
+    SEXP r_centers = PROTECT(Rf_allocMatrix(REALSXP, k, ncols));
+    SEXP r_assign = PROTECT(Rf_allocVector(INTSXP, nrows));
+    // SEXP r_iter = PROTECT(Rf_ScalarInteger(iter));
+
+    for (int c = 0; c < k; c++)
+        for (int j = 0; j < ncols; j++)
+            REAL(r_centers)[c + k*j] = centers[c + k*j];
+    for(size_t i=0; i<nrows; i++)
+        INTEGER(r_assign)[i] = assign[i] + 1; //R indexes from 1
+    SET_VECTOR_ELT(result, 0, r_centers);
+    SET_VECTOR_ELT(result, 1, r_assign);
+    // SET_VECTOR_ELT(result, 2, iter);
+    UNPROTECT(3);
+
+    return result;
 }
