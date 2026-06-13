@@ -20,6 +20,7 @@ a list with two components:
 \itemize{
 \item 'centers': a matrix of clustering centroids (dim: k x ncol(X))
 \item 'assignments': an integer vector of clustering labels (1-indexed)
+\item 'iterations': an integer of the number of completed iterations
 }
 }
 \description{

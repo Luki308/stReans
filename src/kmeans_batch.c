@@ -36,8 +36,8 @@ SEXP C_kmeans_batch(SEXP X_r, SEXP k_r, SEXP max_iter_r, SEXP tol_r){
     double* new_centers = (double*) R_alloc(k*ncols, sizeof(double));
     size_t* assign = (size_t*)R_alloc(nrows, sizeof(size_t));
 
-    
-    for(size_t iter=0; iter < max_iter && shift > tol; iter++){
+    int iter = 0;
+    while(iter < max_iter && shift > tol){
         //assign to nearest cluster
         for(size_t i=0; i<nrows; i++){
             double min_dist = DBL_MAX;
@@ -85,7 +85,7 @@ SEXP C_kmeans_batch(SEXP X_r, SEXP k_r, SEXP max_iter_r, SEXP tol_r){
 
         //(TODO - delete)
         // Debug 
-        Rprintf("iter %lld: shift = %.4f\n", iter+1, shift);
+        Rprintf("iter %d: shift = %.4f\n", iter+1, shift);
             for (int c = 0; c < k; c++) {
         Rprintf("  center %d: (", c + 1);
         for (int j = 0; j < ncols; j++) {
@@ -94,26 +94,31 @@ SEXP C_kmeans_batch(SEXP X_r, SEXP k_r, SEXP max_iter_r, SEXP tol_r){
         }
         Rprintf(")\n");
         }
+        //increment iter
+        iter++;
     }
     
     //results list
-    SEXP result = PROTECT(Rf_allocVector(VECSXP, 2));
+    int return_values = 3;
+    SEXP result = PROTECT(Rf_allocVector(VECSXP, return_values));
+    SEXP names = PROTECT(Rf_allocVector(STRSXP, return_values));
     SEXP r_centers = PROTECT(Rf_allocMatrix(REALSXP, k, ncols));
     SEXP r_assign = PROTECT(Rf_allocVector(INTSXP, nrows));
-    SEXP names = PROTECT(Rf_allocVector(STRSXP, 2));
-
-    // SEXP r_iter = PROTECT(Rf_ScalarInteger(iter));
+    SEXP r_iter = PROTECT(Rf_ScalarInteger(iter));
 
     row_to_col_major(centers, REAL(r_centers), k, ncols);
     for(size_t i=0; i<nrows; i++)
         INTEGER(r_assign)[i] = assign[i] + 1; //R indexes from 1
+    
     SET_VECTOR_ELT(result, 0, r_centers);
     SET_VECTOR_ELT(result, 1, r_assign);
+    SET_VECTOR_ELT(result, 2, r_iter);
+
     SET_STRING_ELT(names, 0, Rf_mkChar("centers"));
     SET_STRING_ELT(names, 1, Rf_mkChar("assignments"));
+    SET_STRING_ELT(names, 2, Rf_mkChar("iterations"));
     Rf_setAttrib(result, R_NamesSymbol, names);
-    // SET_VECTOR_ELT(result, 2, iter);
-    UNPROTECT(4);
+    UNPROTECT(5);
 
     return result;
 }

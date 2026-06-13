@@ -10,6 +10,7 @@
 #' @return a list with two components:
 #' - 'centers': a matrix of clustering centroids (dim: k x ncol(X))
 #' - 'assignments': an integer vector of clustering labels (1-indexed)
+#' - 'iterations': an integer of the number of completed iterations
 #'  
 #' @examples
 #' X <- matrix(rnorm(100), nrow=50, ncol=2)
