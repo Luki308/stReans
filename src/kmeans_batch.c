@@ -8,7 +8,7 @@
 #include <stddef.h>
 
 SEXP k_means_batch(SEXP X_r, SEXP k_r, SEXP max_iter_r, SEXP tol_r){
-    if(!Rf_isReal(X_r) || !Rf_isMatrix(k_r))
+    if(!Rf_isReal(X_r) || !Rf_isMatrix(X_r))
         Rf_error("X should be a numeric matrix!");
     if(!Rf_isInteger(k_r))
         Rf_error("k must be an integer!");
@@ -24,17 +24,18 @@ SEXP k_means_batch(SEXP X_r, SEXP k_r, SEXP max_iter_r, SEXP tol_r){
         Rf_error("k must be between 1 and nrow(X)");
 
     //initialisation (as first k rows)
-    double* centers = (double*) malloc(sizeof(double)*k*ncols);
-    for(size_t c = 0; c < k; c++)
+    double* centers = (double*)R_alloc(k*ncols,sizeof(double));
+    size_t* counts = (size_t*)R_alloc(k, sizeof(size_t));
+    for(size_t c = 0; c < k; c++){
         for(size_t j = 0; j < ncols; j++)
             centers[c + nrows*j] = X[c + nrows*j];
-    
+    }
     //loop
-
     double shift = DBL_MAX;
-    double* new_centers = (double*) malloc(sizeof(double)*k*ncols);
-    size_t* assign = (size_t*)malloc(sizeof(size_t)*nrows);
-    size_t* counts = (size_t*)malloc(sizeof(size_t)*k);
+    double* new_centers = (double*) R_alloc(k*ncols, sizeof(double));
+    size_t* assign = (size_t*)R_alloc(nrows, sizeof(size_t));
+
+    
     for(size_t iter=0; iter < max_iter && shift > tol; iter++){
         //assign to nearest cluster
         for(size_t i=0; i<nrows; i++){
@@ -71,8 +72,11 @@ SEXP k_means_batch(SEXP X_r, SEXP k_r, SEXP max_iter_r, SEXP tol_r){
         //check shift covergence
         for(size_t c=0; c<k; c++){
             double d_shift = euclidean_distance(&centers[c], &new_centers[c], ncols);
+            if(d_shift > shift) shift = d_shift;
         }
+        double* temp = centers;
         centers = new_centers;
+        new_centers = temp;
     }
     
     //results list
