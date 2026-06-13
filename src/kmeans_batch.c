@@ -13,9 +13,10 @@ SEXP k_means_batch(SEXP X_r, SEXP k_r, SEXP max_iter_r, SEXP tol_r){
     if(!Rf_isInteger(k_r))
         Rf_error("k must be an integer!");
     
-    const double* X = REAL(X_r);
     int nrows = Rf_nrows(X_r);
     int ncols = Rf_ncols(X_r);
+    double *X = (double *) R_alloc(nrows * ncols, sizeof(double));
+    col_to_row_major(REAL(X_r), X, nrows, ncols);
     int k = INTEGER(k_r)[0];
     int max_iter = INTEGER(max_iter_r)[0];
     double tol = REAL(tol_r)[0];
@@ -28,7 +29,7 @@ SEXP k_means_batch(SEXP X_r, SEXP k_r, SEXP max_iter_r, SEXP tol_r){
     size_t* counts = (size_t*)R_alloc(k, sizeof(size_t));
     for(size_t c = 0; c < k; c++){
         for(size_t j = 0; j < ncols; j++)
-            centers[c + nrows*j] = X[c + nrows*j];
+            centers[c*ncols + j] = X[c*ncols + j];
     }
     //loop
     double shift = DBL_MAX;
@@ -41,8 +42,8 @@ SEXP k_means_batch(SEXP X_r, SEXP k_r, SEXP max_iter_r, SEXP tol_r){
         for(size_t i=0; i<nrows; i++){
             double min_dist = DBL_MAX;
             size_t best = 0;
-            for(size_t c=0; i<k; i++){
-                double dist_to_c = euclidean_distance(&X[i], &centers[i], ncols);
+            for(size_t c=0; c<k; c++){
+                double dist_to_c = euclidean_distance(&X[i*ncols], &centers[c*ncols], ncols);
                 if(dist_to_c < min_dist) {
                     min_dist = dist_to_c;
                     best = c;
@@ -53,25 +54,27 @@ SEXP k_means_batch(SEXP X_r, SEXP k_r, SEXP max_iter_r, SEXP tol_r){
     
         //update centers
         for (size_t c = 0; c < k; c++) {
+            counts[c] = 0;
             for (size_t j = 0; j < ncols; j++)
-                new_centers[c + nrows*j] = 0.0;
+                new_centers[c * ncols + j] = 0.0;
         }
             //create sums of coords
         for(size_t i=0; i<nrows; i++){
             size_t c = assign[i];
             counts[c]++;
             for(size_t j=0; j<ncols; j++)
-                new_centers[c+nrows*j] += X[i+nrows*j];
+                new_centers[c*ncols+j] += X[i*ncols+j];
         }
             //div by count
         for(size_t c=0; c<k; c++)
             if (counts[c]>0)
                 for(size_t j=0; j<ncols; j++)
-                    new_centers[c+nrows*j] /= counts[c];
+                    new_centers[c*ncols+j] /= counts[c];
 
         //check shift covergence
+        shift = 0.0;
         for(size_t c=0; c<k; c++){
-            double d_shift = euclidean_distance(&centers[c], &new_centers[c], ncols);
+            double d_shift = euclidean_distance(&centers[c*ncols], &new_centers[c*ncols], ncols);
             if(d_shift > shift) shift = d_shift;
         }
         double* temp = centers;
@@ -85,9 +88,7 @@ SEXP k_means_batch(SEXP X_r, SEXP k_r, SEXP max_iter_r, SEXP tol_r){
     SEXP r_assign = PROTECT(Rf_allocVector(INTSXP, nrows));
     // SEXP r_iter = PROTECT(Rf_ScalarInteger(iter));
 
-    for (int c = 0; c < k; c++)
-        for (int j = 0; j < ncols; j++)
-            REAL(r_centers)[c + k*j] = centers[c + k*j];
+    row_to_col_major(centers, REAL(r_centers), k, ncols);
     for(size_t i=0; i<nrows; i++)
         INTEGER(r_assign)[i] = assign[i] + 1; //R indexes from 1
     SET_VECTOR_ELT(result, 0, r_centers);
