@@ -4,6 +4,8 @@
 #include <math.h>
 #include <float.h>
 #include "distances.h"
+#include <stdlib.h>
+#include <stddef.h>
 
 SEXP k_means_batch(SEXP X_r, SEXP k_r, SEXP max_iter_r, SEXP tol_r){
     if(!Rf_isReal(X_r) || !Rf_isMatrix(k_r))
@@ -21,9 +23,13 @@ SEXP k_means_batch(SEXP X_r, SEXP k_r, SEXP max_iter_r, SEXP tol_r){
     if(k <= 0 || k > nrows)
         Rf_error("k must be between 1 and nrow(X)");
 
-    //initialization
-
+    //initialisation (as first k rows)
+    double* centers = (double*) malloc(sizeof(double)*k*ncols);
+    for(size_t c = 0; c < k; c++)
+        for(size_t j = 0; j < ncols; j++)
+            centers[c + nrows*j] = X[c + nrows*j];
+    
     //loop
 
-    return;
+    return NULL;
 }
