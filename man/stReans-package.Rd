@@ -8,6 +8,14 @@
 \description{
 Implements Lloyd's algorithm with k-means++ initialisation for batch data and an incremental online k-means for streaming data. The core computations are performed in C via the R native API for performance.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/Luki308/stReans}
+  \item \url{https://luki308.github.io/stReans/}
+}
+
+}
 \author{
 \strong{Maintainer}: Łukasz Lepianka \email{01159348@pw.edu.pl}
 

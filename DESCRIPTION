@@ -3,7 +3,7 @@ Type: Package
 Title: Batch and Streaming K-Means Clustering with a C Backend
 Version: 0.0.2
 Authors@R: person("Łukasz", "Lepianka", email = "01159348@pw.edu.pl", role = c("aut", "cre"))
-Description: Implements Lloyd's algorithm with k-means++ initialisation for batch
+Description: Implements Lloyd's algorithm for batch
     data and an incremental online k-means for streaming data. The core
     computations are performed in C via the R native API for performance.
 License: MIT + file LICENSE
@@ -13,3 +13,4 @@ RoxygenNote: 8.0.0
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
+URL: https://github.com/Luki308/stReans, https://luki308.github.io/stReans/
