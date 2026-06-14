@@ -72,8 +72,8 @@ legend("topright",
 
 ### C Backend
 
-- `src/distances.c` - Euclidean distance, column-major ↔︎ row-major
-  matrix conversion utilities
+- `src/utils.c` - Euclidean distance, column-major ↔︎ row-major matrix
+  conversion utilities
 - `src/kmeans_batch.c` - Lloyd’s algorithm
 - `src/kmeans_stream_new.c` - incremental online k-means
 - `src/init.c` - native routine registration via `R_registerRoutines`
