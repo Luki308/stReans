@@ -27,8 +27,7 @@ integer, the cluster assignment for `x` (1-indexed)
 
 ## See also
 
-[`kmeans_stream_new`](https://luki308.github.io/stReans/reference/kmeans_stream_new.md),
-`kmeans_stream_predict`
+[`kmeans_stream_new`](https://luki308.github.io/stReans/reference/kmeans_stream_new.md)
 
 ## Examples
 

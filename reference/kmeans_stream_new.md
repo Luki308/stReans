@@ -61,7 +61,6 @@ Sculley, D. (2010). Web-scale k-means clustering. *Proceedings of the
 ## See also
 
 [`kmeans_stream_update`](https://luki308.github.io/stReans/reference/kmeans_stream_update.md),
-`kmeans_stream_predict`,
 [`kmeans_stream_centers`](https://luki308.github.io/stReans/reference/kmeans_stream_centers.md),
 [`kmeans_batch`](https://luki308.github.io/stReans/reference/kmeans_batch.md)
 
