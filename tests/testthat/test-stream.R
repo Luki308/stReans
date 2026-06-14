@@ -1,3 +1,4 @@
+#------Tests for stream_new
 test_that("kmeans_stream_new returns correct structure", {
   model <- kmeans_stream_new(k = 3L, d = 2L)
   
@@ -83,4 +84,17 @@ test_that("kmeans_stream_predict assigns to nearest centroid", {
   expect_equal(kmeans_stream_predict(model, c(0.1, 0.1)), 1L)
   expect_equal(kmeans_stream_predict(model, c(9.9, 9.9)), 2L)
 })
+
+#-------Test for stream_centers------------
+test_that("kmeans_stream_centers reflects warm-up points exactly", {
+  model <- kmeans_stream_new(k = 2L, d = 2L)
+  x1 <- c(1.0, 2.0)
+  x2 <- c(5.0, 6.0)
   
+  kmeans_stream_update(model, x1)
+  kmeans_stream_update(model, x2)
+  
+  centers <- kmeans_stream_centers(model)
+  expect_equal(centers[1, ], x1, tolerance = 1e-10)
+  expect_equal(centers[2, ], x2, tolerance = 1e-10)
+})
