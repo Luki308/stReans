@@ -115,9 +115,20 @@ SEXP C_kmeans_stream_update(SEXP ptr, SEXP x_r){
     // return assignment
     return Rf_ScalarInteger(closest_c + 1); // 1-indexing
 }
-// SEXP C_kmeans_stream_predict(SEXP ptr, SEXP x){
-//     return;
-// }
+SEXP C_kmeans_stream_predict(SEXP ptr, SEXP x_r) {
+    KMeansStreamModel *model = get_model(ptr);
+
+    if (!Rf_isReal(x_r))
+        Rf_error("x must be a numeric vector");
+    if ((int) XLENGTH(x_r) != model->ncols)
+        Rf_error("x must have length d = %d", model->ncols);
+
+    if (model->n_seen == 0)
+        Rf_error("model has not seen any data yet");
+
+    int best = find_closest_centroid(model, REAL(x_r));
+    return Rf_ScalarInteger(best + 1);
+}
 
 SEXP C_kmeans_stream_centers(SEXP ptr) {
     KMeansStreamModel *model = get_model(ptr);

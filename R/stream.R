@@ -83,6 +83,36 @@ kmeans_stream_update <- function(model, x) {
   .Call(C_kmeans_stream_update, model$ptr, as.double(x))
 }
 
+#' Predict Cluster Assignment for One Observation
+#'
+#' Returns the index of the nearest centroid to \code{x} without
+#' updating the model.
+#'
+#' @param model a streaming k-means model created by
+#'   \code{\link{kmeans_stream_new}}
+#' @param x a numeric vector of length \code{d}
+#'
+#' @return integer, the cluster assignment for \code{x} (1-indexed)
+#'
+#' @seealso \code{\link{kmeans_stream_new}},
+#'   \code{\link{kmeans_stream_update}}
+#'
+#' @examples
+#' model <- kmeans_stream_new(k = 2L, d = 2L)
+#' kmeans_stream_update(model, c(0.0, 0.0))
+#' kmeans_stream_update(model, c(5.0, 5.0))
+#' kmeans_stream_predict(model, c(0.1, 0.1))
+#'
+#' @export
+kmeans_stream_predict <- function(model, x) {
+  if (is.null(model$ptr))
+    stop("'model' must be a valid kmeans_stream model")
+  if (!is.numeric(x) || length(x) != model$d)
+    stop("'x' must be a numeric vector of length d = ", model$d)
+
+  .Call(C_kmeans_stream_predict, model$ptr, as.double(x))
+}
+
 #' Extract Current Centroids from a Streaming K-Means Model
 #'
 #' Returns the current centroid positions as a matrix. During the
@@ -110,3 +140,4 @@ kmeans_stream_centers <- function(model) {
   
   .Call(C_kmeans_stream_centers, model$ptr)
 }
+

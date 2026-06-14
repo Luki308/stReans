@@ -17,6 +17,7 @@ static const R_CallMethodDef CallMethods[] = {
     {"C_kmeans_stream_new", (DL_FUNC) &C_kmeans_stream_new,   3},
     {"C_kmeans_stream_update", (DL_FUNC) &C_kmeans_stream_update,   2},
     {"C_kmeans_stream_centers", (DL_FUNC) &C_kmeans_stream_centers,   1},
+    {"C_kmeans_stream_predict", (DL_FUNC) &C_kmeans_stream_predict, 2},
     {NULL, NULL, 0}  /* sentinel — required */
 };
 

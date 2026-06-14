@@ -3,5 +3,6 @@
 export(kmeans_batch)
 export(kmeans_stream_centers)
 export(kmeans_stream_new)
+export(kmeans_stream_predict)
 export(kmeans_stream_update)
 useDynLib(stReans, .registration = TRUE)

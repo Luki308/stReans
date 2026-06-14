@@ -16,7 +16,7 @@ typedef struct{
 
 SEXP C_kmeans_stream_new(SEXP k_r, SEXP d_r, SEXP halflife);
 SEXP C_kmeans_stream_update(SEXP ptr_r, SEXP x_r);
-// SEXP C_kmeans_stream_predict(SEXP ptr_r, SEXP x_r);
+SEXP C_kmeans_stream_predict(SEXP ptr_r, SEXP x_r);
 SEXP C_kmeans_stream_centers(SEXP ptr);
 
 #endif
