@@ -27,5 +27,5 @@ assignment
 
 }
 \seealso{
-\code{\link{kmeans_stream_new}}}
+\code{\link{kmeans_stream_new}}
 }

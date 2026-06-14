@@ -66,7 +66,7 @@ kmeans_stream_new <- function(k, d, halflife = -1) {
 #'
 #' @return integer, the cluster assignment for \code{x} (1-indexed)
 #'
-#' @seealso \code{\link{kmeans_stream_new}}}
+#' @seealso \code{\link{kmeans_stream_new}}
 #'
 #' @examples
 #' model <- kmeans_stream_new(k = 2L, d = 2L)
