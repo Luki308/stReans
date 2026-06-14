@@ -2,10 +2,51 @@
 % Please edit documentation in R/stream.R
 \name{kmeans_stream_new}
 \alias{kmeans_stream_new}
-\title{Create a new stremaing k-means model}
+\title{Create a New Streaming K-Means Model}
 \usage{
-kmeans_stream_new(k, d)
+kmeans_stream_new(k, d, halflife = -1)
+}
+\arguments{
+\item{k}{a positive integer, number of clusters}
+
+\item{d}{a positive integer, number of features (must match observations
+passed to update/predict)}
+
+\item{halflife}{numeric learning rate. Use \code{-1} (default) for
+count-based updates or a value in \code{(0, 1)} for fixed-rate updates
+(forgetful, recent points weighted more heavily)}
+}
+\value{
+a list with components:
+\describe{
+\item{\code{ptr}}{external pointer to the C model struct}
+\item{\code{k}}{number of clusters}
+\item{\code{d}}{number of features}
+\item{\code{halflife}}{learning rate mode}
+}
 }
 \description{
-Create a new stremaing k-means model
+Initialises a streaming k-means model. The first \code{k} observations passed
+to \code{kmeans_stream_update()} will be used as initial centroids (warm-up
+phase). Clustering begins properly after \code{k} observations have been
+seen.
+}
+\examples{
+model <- kmeans_stream_new(k = 3L, d = 2L)
+model$k
+model$d
+
+}
+\references{
+MacQueen, J. (1967). Some methods for classification and analysis
+of #' multivariate observations. \emph{Proceedings of the Fifth Berkeley
+Symposium}, 1, 281-297.
+
+Sculley, D. (2010). Web-scale k-means clustering. \emph{Proceedings of the
+19th International Conference on World Wide Web}, 1177-1178.
+}
+\seealso{
+\code{\link{kmeans_stream_update}},
+\code{\link{kmeans_stream_predict}}, \code{\link{kmeans_stream_centers}},
+\code{\link{kmeans_batch}}
 }

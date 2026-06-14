@@ -14,7 +14,8 @@ static const R_CallMethodDef CallMethods[] = {
     {"C_euclidean_distance",(DL_FUNC) &C_euclidean_distance,  2},
     {"C_col_to_row_major",  (DL_FUNC) &C_col_to_row_major,    3},
     {"C_row_to_col_major",  (DL_FUNC) &C_row_to_col_major,    3},
-    {"C_kmeans_stream_new", (DL_FUNC) &C_kmeans_stream_new,   2},
+    {"C_kmeans_stream_new", (DL_FUNC) &C_kmeans_stream_new,   3},
+    {"C_kmeans_stream_update", (DL_FUNC) &C_kmeans_stream_update,   2},
     {NULL, NULL, 0}  /* sentinel — required */
 };
 

@@ -2,4 +2,5 @@
 
 export(kmeans_batch)
 export(kmeans_stream_new)
+export(kmeans_stream_update)
 useDynLib(stReans, .registration = TRUE)
