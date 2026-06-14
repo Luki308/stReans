@@ -7,7 +7,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/Luki308/stReans/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/Luki308/stReans/blob/v0.1.0/DESCRIPTION)
 
 Lepianka Ł (2026). *stReans: Batch and Streaming K-Means Clustering with
 a C Backend*. R package version 0.1.0,
