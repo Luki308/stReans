@@ -10,7 +10,8 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
-- x
+- x \## \[v0.2.0\]
+- add initialisation of streaming k-means model
 
 ## \[v0.1.0\]
 
