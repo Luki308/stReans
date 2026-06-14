@@ -11,7 +11,8 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Added
 
 - x \## \[v0.2.0\]
-- add initialisation of streaming k-means model
+- added initialisation of streaming k-means model
+- added stream update mechanism
 
 ## \[v0.1.0\]
 
