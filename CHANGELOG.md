@@ -12,6 +12,11 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 - x
 
+## \[v0.1.0\]
+
+- add tests for batch k-means
+- add github page
+
 ## \[v0.0.2\]
 
 - add batch k-means which is callable from R
