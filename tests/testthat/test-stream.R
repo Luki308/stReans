@@ -50,3 +50,37 @@ test_that("kmeans_stream_update assignments are in valid range", {
   expect_true(all(assignments >= 1L))
   expect_true(all(assignments <= k))
 })
+
+#-------------Tests for stream_update--------
+
+test_that("kmeans_stream_predict returns integer assignment", {
+  model <- kmeans_stream_new(k = 2L, d = 2L)
+  kmeans_stream_update(model, c(0.0, 0.0))
+  kmeans_stream_update(model, c(5.0, 5.0))
+  
+  result <- kmeans_stream_predict(model, c(0.1, 0.1))
+  expect_type(result, "integer")
+  expect_length(result, 1L)
+})
+
+test_that("kmeans_stream_predict does not change centroids", {
+  model <- kmeans_stream_new(k = 2L, d = 2L)
+  kmeans_stream_update(model, c(0.0, 0.0))
+  kmeans_stream_update(model, c(5.0, 5.0))
+  
+  centers_before <- kmeans_stream_centers(model)
+  kmeans_stream_predict(model, c(0.1, 0.1))
+  centers_after  <- kmeans_stream_centers(model)
+  
+  expect_equal(centers_before, centers_after)
+})
+
+test_that("kmeans_stream_predict assigns to nearest centroid", {
+  model <- kmeans_stream_new(k = 2L, d = 2L)
+  kmeans_stream_update(model, c(0.0, 0.0))
+  kmeans_stream_update(model, c(10.0, 10.0))
+  
+  expect_equal(kmeans_stream_predict(model, c(0.1, 0.1)), 1L)
+  expect_equal(kmeans_stream_predict(model, c(9.9, 9.9)), 2L)
+})
+  
