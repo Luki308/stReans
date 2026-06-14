@@ -118,3 +118,12 @@ SEXP C_kmeans_stream_update(SEXP ptr, SEXP x_r){
 // SEXP C_kmeans_stream_predict(SEXP ptr, SEXP x){
 //     return;
 // }
+
+SEXP C_kmeans_stream_centers(SEXP ptr) {
+    KMeansStreamModel *model = get_model(ptr);
+
+    SEXP r_centers = PROTECT(Rf_allocMatrix(REALSXP, model->k, model->ncols));
+    row_to_col_major(model->centres, REAL(r_centers), model->k, model->ncols);
+    UNPROTECT(1);
+    return r_centers;
+}

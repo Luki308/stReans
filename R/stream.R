@@ -82,3 +82,31 @@ kmeans_stream_update <- function(model, x) {
   
   .Call(C_kmeans_stream_update, model$ptr, as.double(x))
 }
+
+#' Extract Current Centroids from a Streaming K-Means Model
+#'
+#' Returns the current centroid positions as a matrix. During the
+#' warm-up phase, only the centroids initialised so far contain
+#' meaningful values.
+#'
+#' @param model a streaming k-means model created by
+#'   \code{\link{kmeans_stream_new}}
+#'
+#' @return a \code{k x d} numeric matrix of current centroid positions,
+#'   one centroid per row
+#'
+#' @seealso \code{\link{kmeans_stream_new}}, \code{\link{kmeans_stream_update}}
+#'
+#' @examples
+#' model <- kmeans_stream_new(k = 2L, d = 2L)
+#' kmeans_stream_update(model, c(1.0, 2.0))
+#' kmeans_stream_update(model, c(4.0, 5.0))
+#' kmeans_stream_centers(model)
+#'
+#' @export
+kmeans_stream_centers <- function(model) {
+  if (!is.list(model) || is.null(model$ptr))
+    stop("model must be a kmeans_stream model created by kmeans_stream_new()")
+  
+  .Call(C_kmeans_stream_centers, model$ptr)
+}
