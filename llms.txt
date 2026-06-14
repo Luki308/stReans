@@ -10,9 +10,9 @@ with core computations written in C via the R native API.
 - **[`kmeans_batch()`](https://luki308.github.io/stReans/reference/kmeans_batch.md)** -
   Lloyd’s algorithm for datasets that fit in memory, with convergence
   detection based on centroid shift
-- **`kmeans_stream()`** - incremental online k-means for data streams,
-  processing one observation at a time without storing the full dataset
-  *(coming soon)*
+- **[`kmeans_stream_new()`](https://luki308.github.io/stReans/reference/kmeans_stream_new.md)** -
+  incremental online k-means for data streams, processing one
+  observation at a time without storing the full dataset
 
 ## Installation
 
@@ -75,7 +75,7 @@ legend("topright",
 - `src/distances.c` - Euclidean distance, column-major ↔︎ row-major
   matrix conversion utilities
 - `src/kmeans_batch.c` - Lloyd’s algorithm
-- `src/kmeans_stream.c` - incremental online k-means *(in progress)*
+- `src/kmeans_stream_new.c` - incremental online k-means
 - `src/init.c` - native routine registration via `R_registerRoutines`
 
 ## Development

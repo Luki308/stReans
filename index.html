@@ -59,8 +59,7 @@
 <li>
 <strong><code><a href="reference/kmeans_batch.html">kmeans_batch()</a></code></strong> - Lloyd’s algorithm for datasets that fit in memory, with convergence detection based on centroid shift</li>
 <li>
-<strong><code>kmeans_stream()</code></strong> - incremental online k-means for data streams, processing one observation at a time without storing the full dataset <em>(coming soon)</em>
-</li>
+<strong><code><a href="reference/kmeans_stream_new.html">kmeans_stream_new()</a></code></strong> - incremental online k-means for data streams, processing one observation at a time without storing the full dataset</li>
 </ul>
 </div>
 <div class="section level2">
@@ -127,8 +126,7 @@
 <li>
 <code>src/kmeans_batch.c</code> - Lloyd’s algorithm</li>
 <li>
-<code>src/kmeans_stream.c</code> - incremental online k-means <em>(in progress)</em>
-</li>
+<code>src/kmeans_stream_new.c</code> - incremental online k-means</li>
 <li>
 <code>src/init.c</code> - native routine registration via <code>R_registerRoutines</code>
 </li>
