@@ -21,7 +21,7 @@
 #' }
 #'
 #' @seealso \code{\link{kmeans_stream_update}},
-#'   \code{\link{kmeans_stream_predict}}, \code{\link{kmeans_stream_centers}},
+#'   \code{\link{kmeans_stream_centers}},
 #'   \code{\link{kmeans_batch}}
 #'
 #' @references MacQueen, J. (1967). Some methods for classification and analysis
@@ -66,7 +66,7 @@ kmeans_stream_new <- function(k, d, halflife = -1) {
 #'
 #' @return integer, the cluster assignment for \code{x} (1-indexed)
 #'
-#' @seealso \code{\link{kmeans_stream_new}}, \code{\link{kmeans_stream_predict}}
+#' @seealso \code{\link{kmeans_stream_new}}}
 #'
 #' @examples
 #' model <- kmeans_stream_new(k = 2L, d = 2L)

@@ -47,6 +47,6 @@ Sculley, D. (2010). Web-scale k-means clustering. \emph{Proceedings of the
 }
 \seealso{
 \code{\link{kmeans_stream_update}},
-\code{\link{kmeans_stream_predict}}, \code{\link{kmeans_stream_centers}},
+\code{\link{kmeans_stream_centers}},
 \code{\link{kmeans_batch}}
 }
