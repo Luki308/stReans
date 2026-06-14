@@ -10,9 +10,9 @@ with core computations written in C via the R native API.
 
 `stReans` provides two complementary approaches to k-means clustering:
 
-- **`kmeans_batch()`** — Lloyd's algorithm for datasets that fit in memory,
+- **`kmeans_batch()`** - Lloyd's algorithm for datasets that fit in memory,
   with convergence detection based on centroid shift
-- **`kmeans_stream()`** — incremental online k-means for data streams,
+- **`kmeans_stream()`** - incremental online k-means for data streams,
   processing one observation at a time without storing the full dataset
   *(coming soon)*
 
