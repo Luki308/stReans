@@ -1,7 +1,7 @@
 Package: stReans
 Type: Package
 Title: Batch and Streaming K-Means Clustering with a C Backend
-Version: 0.1.0
+Version: 0.2.0
 Authors@R: person("Łukasz", "Lepianka", email = "01159348@pw.edu.pl", role = c("aut", "cre"))
 Description: Implements Lloyd's algorithm for batch
     data and an incremental online k-means for streaming data. The core

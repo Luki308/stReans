@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - x
+## [v0.2.0]
+- add initialisation of streaming k-means model
 
 ## [v0.1.0]
 - add tests for batch k-means

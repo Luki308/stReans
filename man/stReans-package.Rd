@@ -6,7 +6,7 @@
 \alias{stReans-package}
 \title{stReans: Batch and Streaming K-Means Clustering with a C Backend}
 \description{
-Implements Lloyd's algorithm with k-means++ initialisation for batch data and an incremental online k-means for streaming data. The core computations are performed in C via the R native API for performance.
+Implements Lloyd's algorithm for batch data and an incremental online k-means for streaming data. The core computations are performed in C via the R native API for performance.
 }
 \seealso{
 Useful links:

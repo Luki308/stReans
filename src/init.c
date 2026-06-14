@@ -4,6 +4,7 @@
 #include <R_ext/Rdynload.h>
 
 #include "utils.h"
+#include "kmeans_stream.h"
 
 /* forward declarations of your .Call functions — add more as you write them */
 SEXP C_kmeans_batch(SEXP, SEXP, SEXP, SEXP);
@@ -13,6 +14,7 @@ static const R_CallMethodDef CallMethods[] = {
     {"C_euclidean_distance",(DL_FUNC) &C_euclidean_distance,  2},
     {"C_col_to_row_major",  (DL_FUNC) &C_col_to_row_major,    3},
     {"C_row_to_col_major",  (DL_FUNC) &C_row_to_col_major,    3},
+    {"C_kmeans_stream_new", (DL_FUNC) &C_kmeans_stream_new,   2},
     {NULL, NULL, 0}  /* sentinel — required */
 };
 
